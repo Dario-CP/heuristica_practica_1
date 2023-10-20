@@ -1,0 +1,52 @@
+data;
+/* data section */
+
+set D := D1 D2 D3 D4 D5;
+
+set L := L1 L2 L3 L4 L5 L6;
+
+param T :
+        L1  L2  L3  L4  L5  L6 :=
+    D1  20  15  34  12  20  55
+    D2  30  18  20  15  18  35
+    D3  50  30  14  40  20  20
+    D4  15  12  30  10  17  30
+    D5  32  15  18  20  10  30
+    ;
+
+param NUM_LLAMADAS :=
+    D1  5000
+    D2  6500
+    D3  5400
+    D4  7500
+    D5  5500
+    ;
+
+param NUM_MAX_LLAMADAS_PARKING := 10000;
+
+param T_MAX := 35;
+
+param PROPORCION_BALANCEO := 1.5;
+
+param COSTE_NUEVO_PARKING := 50000;
+
+param COSTE_MINUTO := 2;
+
+param MAX_PORCENT := 0.75;
+
+param MIN_PORCENT := 0.1;
+
+param YA_CONSTRUIDO :=
+    L1  1
+    L2  1
+    L3  1
+    L4  0
+    L5  0
+    L6  0
+    ;
+
+param M := 1000000;
+
+param SIGMA := 0.0001;
+
+end;
