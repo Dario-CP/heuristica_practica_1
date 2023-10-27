@@ -49,8 +49,8 @@ param YA_CONSTRUIDO {j in L};
 # M grande
 param M;
 
-# Sigma pequeña
-param SIGMA;
+# Epsilon pequeño
+param EPSILON;
 
 
 /* Decision variables */
@@ -101,18 +101,24 @@ s.t. distribucion_llamadas {i in D}:
 #### NUEVAS RESTRICCIONES DE LA PARTE 2 ####
 
 # Distribución de llamadas por distrito cuando se supera el porcentaje máximo
-s.t. distribucion_llamadas_max_1 {i in D}:
-    NUM_LLAMADAS[i] - MAX_PORCENT * NUM_MAX_LLAMADAS_PARKING <= M * restringir_llamadas[i] - SIGMA;
-s.t. distribucion_llamadas_max_2 {i in D}:
-    NUM_LLAMADAS[i] - MAX_PORCENT * NUM_MAX_LLAMADAS_PARKING + M * (1 - restringir_llamadas[i]) >= 0;
-s.t. distribucion_llamadas_max_3 {i in D, j in L}:
-    x[i,j] <= NUM_LLAMADAS[i] - SIGMA + M * (1 - restringir_llamadas[i]);
+# s.t. distribucion_llamadas_max_1 {i in D}:
+#     NUM_LLAMADAS[i] - MAX_PORCENT * NUM_MAX_LLAMADAS_PARKING <= M * restringir_llamadas[i] - EPSILON;
+# s.t. distribucion_llamadas_max_2 {i in D}:
+#     NUM_LLAMADAS[i] - MAX_PORCENT * NUM_MAX_LLAMADAS_PARKING + M * (1 - restringir_llamadas[i]) >= 0;
+# s.t. distribucion_llamadas_max_3 {i in D, j in L}:
+#     x[i,j] <= NUM_LLAMADAS[i] - EPSILON + M * (1 - restringir_llamadas[i]);
+
+# s.t. distribucion_llamadas_max {i in D, j in L: NUM_LLAMADAS[i] >= MAX_PORCENT * NUM_MAX_LLAMADAS_PARKING}:
+#     x[i,j] <= NUM_LLAMADAS[i] - EPSILON;
+
+s.t. distribucion_llamadas_max {i in D}:
+    M * (1 - sum{j in L} ruta_activa[i,j]) + NUM_LLAMADAS[i] <= MAX_PORCENT * NUM_MAX_LLAMADAS_PARKING - EPSILON;
 
 # Mínimo de atención
 s.t. min_atencion_1 {i in D, j in L}:
     x[i,j] <= M * ruta_activa[i,j];
 s.t. min_atencion_2 {i in D, j in L}:
-    x[i,j] + M * (1 - ruta_activa[i,j]) >= 0 + SIGMA;
+    x[i,j] + M * (1 - ruta_activa[i,j]) >= 0 + EPSILON;
 s.t. min_atencion_3 {i in D, j in L}:
     x[i,j] >= MIN_PORCENT * NUM_LLAMADAS[i] - M * (1 - ruta_activa[i,j]);
 
@@ -124,7 +130,7 @@ s.t. balanceo_llamadas {j in L, k in L: j <> k}:
 s.t. actividad_parking_1 {j in L}:
     sum{i in D} x[i,j] <= M * parking_activo[j];
 s.t. actividad_parking_2 {j in L}:
-    sum{i in D} x[i,j] + M * (1 - parking_activo[j]) >= 0 + SIGMA;
+    sum{i in D} x[i,j] + M * (1 - parking_activo[j]) >= 0 + EPSILON;
 
 
 /* Model Results */

@@ -47,6 +47,6 @@ param YA_CONSTRUIDO :=
 
 param M := 1000000;
 
-param SIGMA := 0.0001;
+param EPSILON := 0.01;
 
 end;
